@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://doh22mtuk5ayq"]
+
+[ext_resource type="Texture2D" uid="uid://b5om5gn0aykum" path="res://icon.svg" id="1_scwh7"]
+
+[sub_resource type="Mode7ScanlineOverride" id="Mode7ScanlineOverride_60y65"]
+transform = Transform2D(0.0778513, 0, 0, 1, 0, 0)
+scale = Vector2(12.845, 1)
+
+[sub_resource type="Mode7ScanlineOverride" id="Mode7ScanlineOverride_r7glq"]
+
+[node name="RedotTest" type="Node2D"]
+
+[node name="Mode7Sprite2D" type="Mode7Sprite2D" parent="."]
+position = Vector2(960.4999, 538.99994)
+scale = Vector2(14.945313, 8.406251)
+texture = ExtResource("1_scwh7")
+mode7_enabled = true
+mode7_interpolation = 2
+mode7_scanline_overrides = Array[Mode7ScanlineOverride]([SubResource("Mode7ScanlineOverride_60y65"), SubResource("Mode7ScanlineOverride_r7glq")])
+mode7_tiling = true
