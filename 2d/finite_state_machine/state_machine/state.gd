@@ -3,8 +3,8 @@ extends Node
 # but forces us to pass the right arguments to the methods below
 # and makes sure every State object had all of these methods.
 
-# warning-ignore:unused_signal
-signal finished(next_state_name: String)
+@warning_ignore("unused_signal")
+signal finished(next_state_name: StringName)
 
 # Initialize the state. E.g. change the animation.
 func enter() -> void:
@@ -16,7 +16,7 @@ func exit() -> void:
 	pass
 
 
-func handle_input(_event: InputEvent) -> void:
+func handle_input(_input_event: InputEvent) -> void:
 	pass
 
 

@@ -5,11 +5,11 @@
 @tool
 @icon("res://addons/node25d/icons/y_sort_25d_icon.png")
 class_name YSort25D
-extends Node  # NOTE: NOT Node2D, Node25D, or Node2D
+extends Node  # NOTE: NOT Node2D or Node25D.
 
 
 # Whether or not to automatically call sort() in _process().
-@export var sort_enabled := true
+@export var sort_enabled: bool = true
 var _parent_node: Node2D # NOT Node25D
 
 

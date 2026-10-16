@@ -19,7 +19,7 @@ const OFFSET_RANGE = 120.0
 
 @onready var options: OptionMenu = $Options
 
-var _update_collision := false
+var _update_collision: bool = false
 var _collision_test_index := 0
 var _collision_shapes: Array[Shape2D] = []
 
@@ -50,8 +50,8 @@ func _ready() -> void:
 	_update_collision = true
 
 
-func _input(event: InputEvent) -> void:
-	var key_event := event as InputEventKey
+func _input(input_event: InputEvent) -> void:
+	var key_event := input_event as InputEventKey
 	if key_event and not key_event.pressed:
 		if key_event.keycode == KEY_1:
 			_on_option_selected(OPTION_TYPE_RECTANGLE)
@@ -133,7 +133,7 @@ func _add_collision(space_state: PhysicsDirectSpaceState2D, pos: Vector2, shape:
 
 	var color := Color.GREEN
 	if results.is_empty():
-		color = Color.WHITE.darkened(0.5)
+		color = Color.BLACK
 
 	# Draw collision query shape.
 	add_shape(shape, shape_query.transform, color)

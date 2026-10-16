@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ds1y65r8ld026"]
+[gd_scene load_steps=4 format=3 uid="uid://c2c0pl5bga2qv"]
 
-[ext_resource type="Script" path="res://os_test.gd" id="1"]
-[ext_resource type="Script" path="res://actions.gd" id="4"]
+[ext_resource type="Script" uid="uid://btatgn7xlogjk" path="res://os_test.gd" id="1"]
+[ext_resource type="Script" uid="uid://cwpd1hb6r814m" path="res://actions.gd" id="4"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dl4cr"]
 
@@ -31,6 +31,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 focus_mode = 2
+theme_override_constants/line_separation = 6
 theme_override_styles/focus = SubResource("StyleBoxEmpty_dl4cr")
 bbcode_enabled = true
 

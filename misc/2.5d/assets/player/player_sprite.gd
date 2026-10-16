@@ -1,16 +1,18 @@
 @tool
 extends Sprite2D
 
+
 const ANIMATION_FRAMERATE = 15
 
-var _direction := 0
-var _progress := 0.0
+var _direction: int = 0
+var _progress: float = 0.0
 var _parent_node25d: Node25D
 var _parent_math: PlayerMath25D
 
 @onready var _stand: Texture2D = preload("res://assets/player/textures/stand.png")
 @onready var _jump: Texture2D = preload("res://assets/player/textures/jump.png")
 @onready var _run: Texture2D = preload("res://assets/player/textures/run.png")
+
 
 func _ready() -> void:
 	_parent_node25d = get_parent()
@@ -88,7 +90,8 @@ func _sprite_basis() -> void:
 
 # This method returns a bool but if true it also outputs to the direction variable.
 func _check_movement() -> bool:
-	# Gather player input and store movement to these int variables. Note: These indeed have to be integers.
+	# Gather player input and store movement to these int variables.
+	# NOTE: These indeed have to be integers.
 	var x := 0
 	var z := 0
 

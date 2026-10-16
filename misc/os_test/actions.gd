@@ -1,5 +1,22 @@
 extends Node
 
+
+func _ready() -> void:
+	if OS.has_feature("web"):
+		for button: Button in [
+			$GridContainer/OpenShellFolder,
+			$GridContainer/MoveWindowToForeground,
+			$GridContainer/RequestAttention,
+			$GridContainer/VibrateDeviceShort,
+			$GridContainer/VibrateDeviceLong,
+			$GridContainer/AddGlobalMenuItems,
+			$GridContainer/RemoveGlobalMenuItem,
+			$GridContainer/KillCurrentProcess,
+		]:
+			button.disabled = true
+			button.text += "\n(not supported on Web)"
+
+
 func _on_open_shell_web_pressed() -> void:
 	OS.shell_open("https://example.com")
 
@@ -14,7 +31,7 @@ func _on_open_shell_folder_pressed() -> void:
 		# MacOS-specific.
 		path = "file://" + path
 
-	OS.shell_open(path)
+	OS.shell_show_in_file_manager(path)
 
 
 func _on_change_window_title_pressed() -> void:
@@ -69,7 +86,7 @@ func _on_add_global_menu_items_pressed() -> void:
 			func(tag: String) -> void: print("Key main 1 " + str(tag)),
 			null,
 			(KEY_MASK_META | KEY_1) as Key
-	)
+		)
 	DisplayServer.global_menu_add_separator("_main/Hello")
 	DisplayServer.global_menu_add_item("_main/Hello", "World2", func(tag: String) -> void: print("Clicked main 2 " + str(tag)))
 

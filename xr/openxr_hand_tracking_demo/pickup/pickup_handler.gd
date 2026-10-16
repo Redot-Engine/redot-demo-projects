@@ -1,8 +1,8 @@
 @tool
-extends Area3D
 class_name PickupHandler3D
+extends Area3D
 
-# This area3D class detects all physics bodys based on
+# This area3D class detects all physics bodies based on
 # PickupAbleBody3D within range and handles the logic
 # for selecting the closest one and allowing pickup
 # of that object.
@@ -23,6 +23,7 @@ class_name PickupHandler3D
 var closest_body : PickupAbleBody3D
 var picked_up_body: PickupAbleBody3D
 var was_pickup_pressed : bool = false
+
 
 # Update our detection range.
 func _update_detect_range() -> void:

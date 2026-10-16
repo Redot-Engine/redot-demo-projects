@@ -1,9 +1,10 @@
 extends Test
 
+
 const OPTION_TEST_CASE_HIT_FROM_INSIDE = "Test case/Hit from inside"
 
-var _hit_from_inside := false
-var _do_raycasts := false
+var _hit_from_inside: bool = false
+var _do_raycasts: bool = false
 
 @onready var _raycast_visuals := ImmediateMesh.new()
 @onready var _material := StandardMaterial3D.new()
@@ -88,7 +89,7 @@ func _add_raycast(space_state: PhysicsDirectSpaceState3D, pos_start: Vector3, po
 	if result:
 		_raycast_visuals.surface_set_color(Color.GREEN)
 	else:
-		_raycast_visuals.surface_set_color(Color.RED.darkened(0.5))
+		_raycast_visuals.surface_set_color(Color.BLACK)
 
 	# Draw raycast line.
 	_raycast_visuals.surface_add_vertex(pos_start)

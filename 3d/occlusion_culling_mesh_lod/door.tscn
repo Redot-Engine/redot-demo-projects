@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://b72b3llm3ks25"]
+[gd_scene load_steps=9 format=3 uid="uid://djjyyk824u858"]
 
-[ext_resource type="Script" path="res://door.gd" id="1_cd56o"]
+[ext_resource type="Script" uid="uid://dsudku2dqwa2r" path="res://door.gd" id="1_cd56o"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_uwx0y"]
 size = Vector3(0.05, 3.25, 2.5)
@@ -45,8 +45,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5gp0p"]
 _data = {
-"RESET": SubResource("Animation_4cjd4"),
-"open": SubResource("Animation_6r4px")
+&"RESET": SubResource("Animation_4cjd4"),
+&"open": SubResource("Animation_6r4px")
 }
 
 [node name="Door" type="Node3D"]
@@ -71,7 +71,7 @@ occluder = SubResource("BoxOccluder3D_gavni")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_5gp0p")
+&"": SubResource("AnimationLibrary_5gp0p")
 }
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

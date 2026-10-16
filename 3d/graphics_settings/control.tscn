@@ -1,17 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://ye05btta37gb"]
+[gd_scene load_steps=6 format=3 uid="uid://bb7yt35ak3pj5"]
 
-[ext_resource type="Script" path="res://settings.gd" id="1_gm54x"]
-[ext_resource type="PackedScene" uid="uid://cbdt8lmycl8pc" path="res://3d_scene.tscn" id="2_hsbu5"]
+[ext_resource type="Script" uid="uid://rx3sn178khml" path="res://settings.gd" id="1_gm54x"]
+[ext_resource type="PackedScene" uid="uid://cgk7gj7nxwv5y" path="res://3d_scene.tscn" id="2_hsbu5"]
 
 [sub_resource type="Environment" id="Environment_1f0b2"]
 background_mode = 1
 background_color = Color(0.6, 0.6, 0.6, 1)
-tonemap_mode = 3
-tonemap_white = 6.0
+tonemap_mode = 4
 sdfgi_cascades = 2
 sdfgi_min_cell_size = 0.1
-sdfgi_cascade0_distance = 6.4
-sdfgi_max_distance = 25.6
 sdfgi_y_scale = 0
 glow_intensity = 1.0
 glow_hdr_threshold = 0.5
@@ -22,7 +19,7 @@ adjustment_enabled = true
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w3j8l"]
 content_margin_left = 20.0
-content_margin_top = 50.0
+content_margin_top = 40.0
 content_margin_right = 20.0
 content_margin_bottom = 10.0
 bg_color = Color(0.231373, 0.231373, 0.231373, 0.768627)
@@ -124,6 +121,7 @@ theme_override_font_sizes/font_size = 16
 selected = 2
 item_count = 5
 popup/item_0/text = "Smaller (66%)"
+popup/item_0/id = 0
 popup/item_1/text = "Small (80%)"
 popup/item_1/id = 1
 popup/item_2/text = "Medium (100%)"
@@ -138,6 +136,14 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.683425, 0.916893, 1, 1)
 text = "Video Settings"
 horizontal_alignment = 1
+
+[node name="UnsupportedLabel" type="Label" parent="SettingsMenu/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+text = "Some settings are not supported
+on the Compatibility rendering method."
 
 [node name="GridContainer2" type="GridContainer" parent="SettingsMenu/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -165,12 +171,14 @@ theme_override_font_sizes/font_size = 16
 text = "Display Filter:"
 
 [node name="FilterOptionButton" type="OptionButton" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 3
 popup/item_0/text = "Bilinear (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "FSR 1.0 (Fast)"
 popup/item_1/id = 1
 popup/item_2/text = "FSR 2.2 (Slow)"
@@ -207,9 +215,10 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 3
 popup/item_0/text = "Disabled"
-popup/item_1/text = "Enabled"
+popup/item_0/id = 0
+popup/item_1/text = "Enabled (Borderless)"
 popup/item_1/id = 1
-popup/item_2/text = "Exclusive"
+popup/item_2/text = "Enabled (Exclusive)"
 popup/item_2/id = 2
 
 [node name="VsyncLabel" type="Label" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
@@ -225,18 +234,19 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 3
 popup/item_0/text = "Disabled"
+popup/item_0/id = 0
 popup/item_1/text = "Adaptive"
 popup/item_1/id = 1
 popup/item_2/text = "Enabled"
 popup/item_2/id = 2
 
-[node name="LimitFPSLabel" type="Label" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
+[node name="FPSLimitLabel" type="Label" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 text = "Limit FPS:"
 
-[node name="LimitFPSSlider" type="HSlider" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
+[node name="FPSLimitSlider" type="HSlider" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -257,6 +267,7 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 2
 popup/item_0/text = "Disabled (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "Enabled (Average)"
 popup/item_1/id = 1
 
@@ -274,6 +285,7 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 4
 popup/item_0/text = "Disabled (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "2× (Average)"
 popup/item_1/id = 1
 popup/item_2/text = "4× (Slow)"
@@ -281,22 +293,25 @@ popup/item_2/id = 2
 popup/item_3/text = "8× (Slower)"
 popup/item_3/id = 3
 
-[node name="FXAALabel" type="Label" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
+[node name="ScreenSpaceAALabel" type="Label" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
-text = "Anti-Aliasing (FXAA):"
+text = "Screen-Space AA:"
 
-[node name="FXAAOptionButton" type="OptionButton" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
+[node name="ScreenSpaceAAOptionButton" type="OptionButton" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 16
 selected = 0
-item_count = 2
+item_count = 3
 popup/item_0/text = "Disabled (Fastest)"
-popup/item_1/text = "Enabled (Fast)"
+popup/item_0/id = 0
+popup/item_1/text = "FXAA (Fast)"
 popup/item_1/id = 1
+popup/item_2/text = "SMAA (Average)"
+popup/item_2/id = 2
 
 [node name="FOVLabel" type="Label" parent="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2"]
 layout_mode = 2
@@ -335,6 +350,7 @@ theme_override_font_sizes/font_size = 16
 selected = 3
 item_count = 6
 popup/item_0/text = "Minimum (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "Very Low (Faster)"
 popup/item_1/id = 1
 popup/item_2/text = "Low (Fast)"
@@ -360,6 +376,7 @@ theme_override_font_sizes/font_size = 16
 selected = 2
 item_count = 6
 popup/item_0/text = "Very Low (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "Low (Faster)"
 popup/item_1/id = 1
 popup/item_2/text = "Medium (Fast)"
@@ -385,6 +402,7 @@ theme_override_font_sizes/font_size = 16
 selected = 2
 item_count = 4
 popup/item_0/text = "Low (Faster)"
+popup/item_0/id = 0
 popup/item_1/text = "Medium (Fast)"
 popup/item_1/id = 1
 popup/item_2/text = "High (Average)"
@@ -416,6 +434,7 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 3
 popup/item_0/text = "Disabled (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "Low (Average)"
 popup/item_1/id = 1
 popup/item_2/text = "High (Slow)"
@@ -435,6 +454,7 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 3
 popup/item_0/text = "Disabled (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "Low (Fast)"
 popup/item_1/id = 1
 popup/item_2/text = "High (Average)"
@@ -454,6 +474,7 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 6
 popup/item_0/text = "Disabled (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "Very Low (Fast)"
 popup/item_1/id = 1
 popup/item_2/text = "Low (Fast)"
@@ -479,6 +500,7 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 4
 popup/item_0/text = "Disabled (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "Low (Average)"
 popup/item_1/id = 1
 popup/item_2/text = "Medium (Slow)"
@@ -500,6 +522,7 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 6
 popup/item_0/text = "Disabled (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "Very Low (Fast)"
 popup/item_1/id = 1
 popup/item_2/text = "Low (Average)"
@@ -525,6 +548,7 @@ theme_override_font_sizes/font_size = 16
 selected = 0
 item_count = 3
 popup/item_0/text = "Disabled (Fastest)"
+popup/item_0/id = 0
 popup/item_1/text = "Low (Fast)"
 popup/item_1/id = 1
 popup/item_2/text = "High (Average)"
@@ -635,10 +659,10 @@ horizontal_alignment = 2
 [connection signal="value_changed" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/FSRSharpnessSlider" to="." method="_on_fsr_sharpness_slider_value_changed"]
 [connection signal="item_selected" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/FullscreenOptionButton" to="." method="_on_fullscreen_option_button_item_selected"]
 [connection signal="item_selected" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/VsyncOptionButton" to="." method="_on_vsync_option_button_item_selected"]
-[connection signal="value_changed" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/LimitFPSSlider" to="." method="_on_limit_fps_slider_value_changed"]
+[connection signal="value_changed" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/FPSLimitSlider" to="." method="_on_fps_limit_slider_value_changed"]
 [connection signal="item_selected" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/TAAOptionButton" to="." method="_on_taa_option_button_item_selected"]
 [connection signal="item_selected" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/MSAAOptionButton" to="." method="_on_msaa_option_button_item_selected"]
-[connection signal="item_selected" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/FXAAOptionButton" to="." method="_on_fxaa_option_button_item_selected"]
+[connection signal="item_selected" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/ScreenSpaceAAOptionButton" to="." method="_on_screen_space_aa_option_button_item_selected"]
 [connection signal="value_changed" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer2/FOVSlider" to="." method="_on_fov_slider_value_changed"]
 [connection signal="item_selected" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4/ShadowSizeOptionButton" to="." method="_on_shadow_size_option_button_item_selected"]
 [connection signal="item_selected" from="SettingsMenu/ScrollContainer/VBoxContainer/GridContainer4/ShadowFilterOptionButton" to="." method="_on_shadow_filter_option_button_item_selected"]

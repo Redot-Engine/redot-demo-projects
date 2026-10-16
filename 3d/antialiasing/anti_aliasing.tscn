@@ -1,11 +1,11 @@
-[gd_scene load_steps=55 format=3 uid="uid://clyxqp0e6qemi"]
+[gd_scene load_steps=55 format=3 uid="uid://djtl7wpimep6k"]
 
-[ext_resource type="Texture2D" uid="uid://ccgkupemr6e1q" path="res://textures/paint.png" id="3_2nulf"]
-[ext_resource type="PackedScene" uid="uid://daokc0jvx7nkw" path="res://thin_lines.tscn" id="3_5ehjl"]
-[ext_resource type="PackedScene" uid="uid://sxx5ow26t0c3" path="res://polyhaven/dutch_ship_medium_1k.gltf" id="3_fa2bl"]
-[ext_resource type="Texture2D" uid="uid://bm6eht0bqttpo" path="res://textures/paint_normal.png" id="4_fdfpv"]
-[ext_resource type="Texture2D" uid="uid://chjqieyps5n5r" path="res://textures/checker.png" id="14"]
-[ext_resource type="Script" path="res://anti_aliasing.gd" id="18"]
+[ext_resource type="Texture2D" uid="uid://bfgsucq0jx2cb" path="res://textures/paint.png" id="3_2nulf"]
+[ext_resource type="PackedScene" uid="uid://chlh878qnorc7" path="res://thin_lines.tscn" id="3_5ehjl"]
+[ext_resource type="PackedScene" uid="uid://ctqc7ve1t0ajx" path="res://polyhaven/dutch_ship_medium_1k.gltf" id="3_fa2bl"]
+[ext_resource type="Texture2D" uid="uid://bxjrisgsfwb3x" path="res://textures/paint_normal.png" id="4_fdfpv"]
+[ext_resource type="Texture2D" uid="uid://b5ro6ovp010" path="res://textures/checker.png" id="14"]
+[ext_resource type="Script" uid="uid://p5c10p406acq" path="res://anti_aliasing.gd" id="18"]
 
 [sub_resource type="ProceduralSkyMaterial" id="9"]
 
@@ -15,6 +15,7 @@ sky_material = SubResource("9")
 [sub_resource type="Environment" id="11"]
 background_mode = 2
 sky = SubResource("10")
+tonemap_mode = 4
 
 [sub_resource type="Animation" id="Animation_qdnt6"]
 length = 0.001
@@ -218,8 +219,8 @@ tracks/7/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ecfcr"]
 _data = {
-"RESET": SubResource("Animation_qdnt6"),
-"move": SubResource("12")
+&"RESET": SubResource("Animation_qdnt6"),
+&"move": SubResource("12")
 }
 
 [sub_resource type="StandardMaterial3D" id="13"]
@@ -245,9 +246,9 @@ fractal_gain = 0.9
 fractal_ping_pong_strength = -1.2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture_bgiac"]
-seamless = true
-color_ramp = SubResource("Gradient_jyuoy")
 noise = SubResource("FastNoiseLite_kv21n")
+color_ramp = SubResource("Gradient_jyuoy")
+seamless = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x42ya"]
 albedo_color = Color(1.2, 1, 0.7, 1)
@@ -395,6 +396,7 @@ emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 0.0
 emission_ring_radius = 0.25
 emission_ring_inner_radius = 0.25
+emission_ring_cone_angle = 90.0
 radial_accel_min = 2.0
 radial_accel_max = 2.0
 
@@ -458,16 +460,16 @@ void fragment() {
 render_priority = 0
 shader = SubResource("Shader_rejcs")
 shader_parameter/albedo = Color(1.2, 0.915333, 0.997134, 1)
+shader_parameter/texture_albedo = SubResource("NoiseTexture_bgiac")
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
 shader_parameter/uv1_scale = Vector3(2, 2, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/texture_albedo = SubResource("NoiseTexture_bgiac")
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_oopii"]
 height = 1.0
@@ -519,16 +521,16 @@ void fragment() {
 render_priority = 0
 shader = SubResource("Shader_ovufm")
 shader_parameter/albedo = Color(1.2, 1.16365, 0.85123, 1)
+shader_parameter/texture_albedo = SubResource("NoiseTexture_bgiac")
 shader_parameter/point_size = 1.0
 shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
+shader_parameter/metallic_texture_channel = Vector4(0, 0, 0, 0)
 shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
 shader_parameter/uv1_scale = Vector3(2, 2, 1)
 shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
-shader_parameter/texture_albedo = SubResource("NoiseTexture_bgiac")
 
 [sub_resource type="Gradient" id="Gradient_ehij4"]
 offsets = PackedFloat32Array(0, 0.333, 0.667, 1)
@@ -540,7 +542,7 @@ script = ExtResource("18")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_ecfcr")
+&"": SubResource("AnimationLibrary_ecfcr")
 }
 autoplay = "move"
 
@@ -811,7 +813,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -68)
 mesh = SubResource("SphereMesh_v4x6x")
 
 [node name="Decal" type="Decal" parent="Testers/MovingDecal"]
-transform = Transform3D(-0.707104, -1.01328e-06, -0.707109, 0.183013, 0.965926, -0.183013, 0.683015, -0.258819, -0.68301, 1, 1, 1)
+transform = Transform3D(-0.70710397, -1.0132787e-06, -0.7071092, 0.18301255, 0.9659256, -0.1830126, 0.68301517, -0.25881886, -0.68300986, 1, 1, 1)
 texture_albedo = ExtResource("3_2nulf")
 texture_normal = ExtResource("4_fdfpv")
 
@@ -884,24 +886,23 @@ offset_right = 394.0
 offset_bottom = 340.0
 theme_override_constants/separation = 10
 
-[node name="MSAAContainer" type="HBoxContainer" parent="Antialiasing"]
+[node name="MultisampleAAContainer" type="HBoxContainer" parent="Antialiasing"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Antialiasing/MSAAContainer"]
+[node name="Label" type="Label" parent="Antialiasing/MultisampleAAContainer"]
 custom_minimum_size = Vector2(120, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-text = "MSAA
-"
+text = "Multisample AA"
 vertical_alignment = 1
 
-[node name="MSAA" type="OptionButton" parent="Antialiasing/MSAAContainer"]
+[node name="MultisampleAA" type="OptionButton" parent="Antialiasing/MultisampleAAContainer"]
 custom_minimum_size = Vector2(235, 2.08165e-12)
 layout_mode = 2
-item_count = 4
 selected = 0
+item_count = 4
 popup/item_0/text = "Disabled (Fastest)"
 popup/item_0/id = 0
 popup/item_1/text = "2× (Average)"
@@ -911,47 +912,47 @@ popup/item_2/id = 2
 popup/item_3/text = "8× (Slower)"
 popup/item_3/id = 3
 
-[node name="FXAAContainer" type="HBoxContainer" parent="Antialiasing"]
+[node name="ScreenSpaceAAContainer" type="HBoxContainer" parent="Antialiasing"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Antialiasing/FXAAContainer"]
+[node name="Label" type="Label" parent="Antialiasing/ScreenSpaceAAContainer"]
 custom_minimum_size = Vector2(120, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-text = "FXAA
-"
+text = "Screen-Space AA"
 vertical_alignment = 1
 
-[node name="FXAA" type="OptionButton" parent="Antialiasing/FXAAContainer"]
+[node name="ScreenSpaceAA" type="OptionButton" parent="Antialiasing/ScreenSpaceAAContainer"]
 custom_minimum_size = Vector2(235, 2.08165e-12)
 layout_mode = 2
-item_count = 2
 selected = 0
+item_count = 3
 popup/item_0/text = "Disabled (Fastest)"
 popup/item_0/id = 0
-popup/item_1/text = "Enabled (Fast)"
+popup/item_1/text = "FXAA (Fast)"
 popup/item_1/id = 1
+popup/item_2/text = "SMAA (Average)"
+popup/item_2/id = 2
 
-[node name="TAAContainer" type="HBoxContainer" parent="Antialiasing"]
+[node name="TemporalAAContainer" type="HBoxContainer" parent="Antialiasing"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Antialiasing/TAAContainer"]
+[node name="Label" type="Label" parent="Antialiasing/TemporalAAContainer"]
 custom_minimum_size = Vector2(120, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-text = "TAA
-"
+text = "Temporal AA"
 vertical_alignment = 1
 
-[node name="TAA" type="OptionButton" parent="Antialiasing/TAAContainer"]
+[node name="TemporalAA" type="OptionButton" parent="Antialiasing/TemporalAAContainer"]
 custom_minimum_size = Vector2(235, 2.08165e-12)
 layout_mode = 2
-item_count = 2
 selected = 0
+item_count = 2
 popup/item_0/text = "Disabled (Fastest)"
 popup/item_0/id = 0
 popup/item_1/text = "Enabled (Average)"
@@ -972,8 +973,8 @@ vertical_alignment = 1
 [node name="VSync" type="OptionButton" parent="Antialiasing/VSyncContainer"]
 custom_minimum_size = Vector2(235, 2.08165e-12)
 layout_mode = 2
-item_count = 3
 selected = 0
+item_count = 3
 popup/item_0/text = "Disabled"
 popup/item_0/id = 0
 popup/item_1/text = "Adaptive"
@@ -981,20 +982,20 @@ popup/item_1/id = 1
 popup/item_2/text = "Enabled"
 popup/item_2/id = 2
 
-[node name="LimitFPSContainer" type="HBoxContainer" parent="Antialiasing"]
+[node name="FPSLimitContainer" type="HBoxContainer" parent="Antialiasing"]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="Label" type="Label" parent="Antialiasing/LimitFPSContainer"]
+[node name="Label" type="Label" parent="Antialiasing/FPSLimitContainer"]
 custom_minimum_size = Vector2(120, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-text = "Limit FPS"
+text = "FPS Limit"
 vertical_alignment = 1
 
-[node name="LimitFPSScale" type="HSlider" parent="Antialiasing/LimitFPSContainer"]
+[node name="FPSLimitScale" type="HSlider" parent="Antialiasing/FPSLimitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
@@ -1002,12 +1003,12 @@ size_flags_stretch_ratio = 3.0
 max_value = 300.0
 step = 10.0
 
-[node name="Value" type="Label" parent="Antialiasing/LimitFPSContainer"]
+[node name="Value" type="Label" parent="Antialiasing/FPSLimitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
-text = "0"
+text = "∞"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1053,8 +1054,8 @@ text = "AMD FidelityFX Super Resolution 1.0"
 [node name="FSRSharpness" type="OptionButton" parent="Antialiasing"]
 visible = false
 layout_mode = 2
-item_count = 5
 selected = 3
+item_count = 5
 popup/item_0/text = "No FSR Sharpness"
 popup/item_0/id = 0
 popup/item_1/text = "Low FSR Sharpness"
@@ -1097,11 +1098,11 @@ metadata/gradient = SubResource("Gradient_ehij4")
 
 [connection signal="pressed" from="Previous" to="." method="_on_previous_pressed"]
 [connection signal="pressed" from="Next" to="." method="_on_next_pressed"]
-[connection signal="item_selected" from="Antialiasing/MSAAContainer/MSAA" to="." method="_on_msaa_item_selected"]
-[connection signal="item_selected" from="Antialiasing/FXAAContainer/FXAA" to="." method="_on_fxaa_item_selected"]
-[connection signal="item_selected" from="Antialiasing/TAAContainer/TAA" to="." method="_on_taa_item_selected"]
+[connection signal="item_selected" from="Antialiasing/MultisampleAAContainer/MultisampleAA" to="." method="_on_msaa_item_selected"]
+[connection signal="item_selected" from="Antialiasing/ScreenSpaceAAContainer/ScreenSpaceAA" to="." method="_on_screen_space_aa_item_selected"]
+[connection signal="item_selected" from="Antialiasing/TemporalAAContainer/TemporalAA" to="." method="_on_taa_item_selected"]
 [connection signal="item_selected" from="Antialiasing/VSyncContainer/VSync" to="." method="_on_v_sync_item_selected"]
-[connection signal="value_changed" from="Antialiasing/LimitFPSContainer/LimitFPSScale" to="." method="_on_limit_fps_scale_value_changed"]
+[connection signal="value_changed" from="Antialiasing/FPSLimitContainer/FPSLimitScale" to="." method="_on_fps_limit_scale_value_changed"]
 [connection signal="value_changed" from="Antialiasing/RenderScaleContainer/RenderScale" to="." method="_on_render_scale_value_changed"]
 [connection signal="toggled" from="Antialiasing/FidelityFXFSR" to="." method="_on_amd_fidelityfx_fsr1_toggled"]
 [connection signal="item_selected" from="Antialiasing/FSRSharpness" to="." method="_on_fsr_sharpness_item_selected"]

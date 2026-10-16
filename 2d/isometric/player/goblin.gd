@@ -31,11 +31,10 @@ var anim_directions = {
 
 func _physics_process(_delta):
 	var motion = Vector2()
-	motion.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	motion.y = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
+	motion.x = Input.get_action_strength(&"move_right") - Input.get_action_strength(&"move_left")
+	motion.y = Input.get_action_strength(&"move_down") - Input.get_action_strength(&"move_up")
 	motion.y /= 2
 	motion = motion.normalized() * MOTION_SPEED
-	#warning-ignore:return_value_discarded
 	set_velocity(motion)
 	move_and_slide()
 	var dir = velocity
@@ -48,7 +47,6 @@ func _physics_process(_delta):
 
 
 func update_animation(anim_set):
-
 	var angle = rad_to_deg(last_direction.angle()) + 22.5
 	var slice_dir = floor(angle / 45)
 

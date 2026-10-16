@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://bao3yernlglws"]
+[gd_scene load_steps=6 format=3 uid="uid://cwchcyc0t4cgv"]
 
-[ext_resource type="Script" path="res://rock.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://bdomqql6y50po" path="res://brickfloor.png" id="2"]
+[ext_resource type="Script" uid="uid://cthwxh4pw0c66" path="res://rock.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://uptqordg8d6j" path="res://brickfloor.png" id="2"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(48, 48)
@@ -37,7 +37,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6pqaw"]
 _data = {
-"explode": SubResource("2")
+&"explode": SubResource("2")
 }
 
 [node name="Rock" type="CharacterBody2D"]
@@ -54,5 +54,5 @@ shape = SubResource("1")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_6pqaw")
+&"": SubResource("AnimationLibrary_6pqaw")
 }

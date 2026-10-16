@@ -1,14 +1,10 @@
-[gd_scene load_steps=28 format=3 uid="uid://cc4idhykjp5f5"]
+[gd_scene load_steps=24 format=3 uid="uid://c0q5hsswj8dqf"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1"]
-[ext_resource type="Script" path="res://player/follow_camera.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://yd1e7ai2k5cr" path="res://player/player.glb" id="3_uccbe"]
-[ext_resource type="Texture2D" uid="uid://kujhqacj3v72" path="res://player/controls/osb_up.webp" id="4_lmv6w"]
-[ext_resource type="Texture2D" uid="uid://68sox6egj4j7" path="res://player/controls/osb_down.webp" id="5_4oxdy"]
-[ext_resource type="Texture2D" uid="uid://r6qxvqi0unib" path="res://player/controls/osb_left.webp" id="6_k2dm4"]
-[ext_resource type="AudioStream" uid="uid://cdx3i7hr2acow" path="res://player/sound_shoot.wav" id="7"]
-[ext_resource type="Texture2D" uid="uid://bw76q621n8fie" path="res://player/controls/osb_right.webp" id="7_yth2f"]
-[ext_resource type="AudioStream" uid="uid://bplqk77bffdxr" path="res://player/sound_jump.wav" id="8"]
+[ext_resource type="Script" uid="uid://c83vs7rrucfhr" path="res://player/player.gd" id="1"]
+[ext_resource type="Script" uid="uid://dlo1v7qh2cevv" path="res://player/follow_camera.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://cw4wxd37six31" path="res://player/player.glb" id="3_uccbe"]
+[ext_resource type="AudioStream" uid="uid://cpy1ydh2yvmp5" path="res://player/sound_shoot.wav" id="7"]
+[ext_resource type="AudioStream" uid="uid://digg4vxlv4ciu" path="res://player/sound_jump.wav" id="8"]
 
 [sub_resource type="CapsuleShape3D" id="1"]
 radius = 0.4
@@ -48,6 +44,7 @@ filters = ["Skeleton/Skeleton3D:MASTER", "Skeleton/Skeleton3D:chest", "Skeleton/
 
 [sub_resource type="AnimationNodeBlendTree" id="23"]
 graph_offset = Vector2(-221.364, -194.029)
+nodes/output/position = Vector2(880, 140)
 nodes/Animation/node = SubResource("17")
 nodes/Animation/position = Vector2(-260, -400)
 "nodes/Animation 2/node" = SubResource("13")
@@ -64,7 +61,6 @@ nodes/air_dir/node = SubResource("18")
 nodes/air_dir/position = Vector2(110, 20)
 nodes/gun/node = SubResource("19")
 nodes/gun/position = Vector2(680, 140)
-nodes/output/position = Vector2(880, 140)
 nodes/run/node = SubResource("22")
 nodes/run/position = Vector2(80, -260)
 nodes/scale/node = SubResource("20")
@@ -73,19 +69,17 @@ nodes/speed/node = SubResource("AnimationNodeBlend2_lxtyk")
 nodes/speed/position = Vector2(-80, -200)
 nodes/state/node = SubResource("AnimationNodeBlend2_bivc5")
 nodes/state/position = Vector2(460, 10)
-node_connections = [&"air_dir", 0, &"Animation 3", &"air_dir", 1, &"Animation 4", &"gun", 0, &"state", &"gun", 1, &"Animation 5", &"output", 0, &"gun", &"run", 0, &"Animation", &"run", 1, &"speed", &"scale", 0, &"run", &"speed", 0, &"Animation 6", &"speed", 1, &"Animation 2", &"state", 0, &"scale", &"state", 1, &"air_dir"]
+node_connections = [&"output", 0, &"gun", &"air_dir", 0, &"Animation 3", &"air_dir", 1, &"Animation 4", &"gun", 0, &"state", &"gun", 1, &"Animation 5", &"run", 0, &"Animation", &"run", 1, &"speed", &"scale", 0, &"run", &"speed", 0, &"Animation 6", &"speed", 1, &"Animation 2", &"state", 0, &"scale", &"state", 1, &"air_dir"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_basvh"]
 random_pitch = 1.03
 streams_count = 1
 stream_0/stream = ExtResource("7")
-stream_0/weight = 1.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_axa7i"]
 random_pitch = 1.03
 streams_count = 1
 stream_0/stream = ExtResource("8")
-stream_0/weight = 1.0
 
 [sub_resource type="Gradient" id="Gradient_p2tu5"]
 interpolation_mode = 2
@@ -116,17 +110,6 @@ near = 0.1
 script = ExtResource("2")
 
 [node name="Player" parent="." instance=ExtResource("3_uccbe")]
-
-[node name="Skeleton3D" parent="Player/Skeleton" index="0"]
-bones/5/rotation = Quaternion(0.501129, -0.498869, -0.501128, 0.498869)
-bones/9/rotation = Quaternion(-0.264667, 0.951702, -0.15503, -0.013433)
-bones/10/rotation = Quaternion(0.744208, -0.433567, 0.504614, 0.0594899)
-bones/11/rotation = Quaternion(0.264667, 0.951702, -0.15503, 0.013433)
-bones/13/rotation = Quaternion(-0.000357303, 0.998602, 0.0504822, -0.0156872)
-bones/14/rotation = Quaternion(0.720784, -0.0117194, -0.041935, 0.691791)
-bones/15/rotation = Quaternion(0.998503, -0.0419896, 0.0282027, 0.0208377)
-bones/16/rotation = Quaternion(0.000357169, 0.998602, 0.050483, 0.0156871)
-bones/17/rotation = Quaternion(0.720784, 0.0117189, 0.0419352, 0.691791)
 
 [node name="Robot" parent="Player/Skeleton/Skeleton3D" index="0"]
 layers = 2
@@ -183,44 +166,8 @@ parameters/air_dir/blend_amount = 0.0
 parameters/gun/blend_amount = 0.0
 parameters/run/blend_amount = 0.0
 parameters/scale/scale = 1.5
-parameters/speed/blend_amount = 0
+parameters/speed/blend_amount = 0.0
 parameters/state/blend_amount = 0.0
-
-[node name="Forward" type="TouchScreenButton" parent="."]
-visible = false
-position = Vector2(72, 301)
-texture_normal = ExtResource("4_lmv6w")
-texture_pressed = ExtResource("4_lmv6w")
-passby_press = true
-action = "move_forward"
-visibility_mode = 1
-
-[node name="Backward" type="TouchScreenButton" parent="."]
-visible = false
-position = Vector2(72, 365)
-texture_normal = ExtResource("5_4oxdy")
-texture_pressed = ExtResource("5_4oxdy")
-passby_press = true
-action = "move_backwards"
-visibility_mode = 1
-
-[node name="Left" type="TouchScreenButton" parent="."]
-visible = false
-position = Vector2(29, 332)
-texture_normal = ExtResource("6_k2dm4")
-texture_pressed = ExtResource("6_k2dm4")
-passby_press = true
-action = "move_left"
-visibility_mode = 1
-
-[node name="Right" type="TouchScreenButton" parent="."]
-visible = false
-position = Vector2(114, 332)
-texture_normal = ExtResource("7_yth2f")
-texture_pressed = ExtResource("7_yth2f")
-passby_press = true
-action = "move_right"
-visibility_mode = 1
 
 [node name="SoundShoot" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_basvh")
@@ -229,7 +176,7 @@ stream = SubResource("AudioStreamRandomizer_basvh")
 stream = SubResource("AudioStreamRandomizer_axa7i")
 volume_db = -6.0
 
-[node name="BlobShadow" type="Decal" parent="."]
+[node name="BlobShadow" type="Decal" parent="." groups=["bad_performer"]]
 size = Vector3(1.6, 12, 1.6)
 texture_albedo = SubResource("GradientTexture2D_kvc1x")
 albedo_mix = 0.8

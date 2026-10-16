@@ -3,23 +3,25 @@ extends Node2D
 
 signal wait_done()
 
-@export var _enable_debug_collision := true
+@export var _enable_debug_collision: bool = true
 
 var _timer: Timer
-var _timer_started := false
+var _timer_started: bool = false
 
-var _wait_physics_ticks_counter := 0
+var _wait_physics_ticks_counter: int = 0
 
 class Circle2D:
 	extends Node2D
 	var center := Vector2()
-	var radius := 0.0
+	var radius: float = 0.0
 	var color := Color()
 
 	func _draw() -> void:
 		draw_circle(center, radius, color)
 
+
 var _drawn_nodes := []
+
 
 func _enter_tree() -> void:
 	if not _enable_debug_collision:
@@ -55,7 +57,7 @@ func add_shape(shape: Shape2D, shape_transform: Transform2D, color: Color) -> vo
 	var collision := CollisionShape2D.new()
 	collision.shape = shape
 	collision.transform = shape_transform
-	collision.modulate = color
+	collision.debug_color = color * Color(1, 1, 1, 0.1)
 	_drawn_nodes.push_back(collision)
 	add_child(collision)
 
@@ -70,6 +72,7 @@ func create_rigidbody(shape: Shape2D, pickable: bool = false, shape_transform: T
 	var collision := CollisionShape2D.new()
 	collision.shape = shape
 	collision.transform = shape_transform
+	collision.debug_color = Color.YELLOW * Color(1, 1, 1, 0.1)
 
 	var body := RigidBody2D.new()
 	body.add_child(collision)

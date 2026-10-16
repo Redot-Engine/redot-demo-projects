@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c7nfvt1chslyh"]
+[gd_scene load_steps=7 format=3 uid="uid://bu66hmc50iur"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_yvrvl"]
-[ext_resource type="Texture2D" uid="uid://d051ugdf65it1" path="res://assets/polyhaven/industrial_sunset_puresky_2k.hdr" id="2_g2q6b"]
-[ext_resource type="PackedScene" uid="uid://b2a5bjsxw63wr" path="res://water_plane/water_plane.tscn" id="2_k1nfp"]
+[ext_resource type="Script" uid="uid://dao3fpbygt47t" path="res://main.gd" id="1_yvrvl"]
+[ext_resource type="Texture2D" uid="uid://d2kcjom6jqbtc" path="res://assets/polyhaven/industrial_sunset_puresky_2k.hdr" id="2_g2q6b"]
+[ext_resource type="PackedScene" uid="uid://cihf5g1mykew5" path="res://water_plane/water_plane.tscn" id="2_k1nfp"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_obhcg"]
 panorama = ExtResource("2_g2q6b")
@@ -13,8 +13,7 @@ sky_material = SubResource("PanoramaSkyMaterial_obhcg")
 [sub_resource type="Environment" id="Environment_5dv8s"]
 background_mode = 2
 sky = SubResource("Sky_s1sgk")
-tonemap_mode = 2
-tonemap_white = 4.56
+tonemap_mode = 4
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_yvrvl")

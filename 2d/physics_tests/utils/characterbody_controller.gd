@@ -8,14 +8,14 @@ var _jump_force := 1000.0
 var _velocity := Vector2.ZERO
 var _snap := 0.0
 var _floor_max_angle := 45.0
-var _stop_on_slope := false
-var _move_on_floor_only := false
-var _constant_speed := false
-var _jumping := false
-var _keep_velocity := false
+var _stop_on_slope: bool = false
+var _move_on_floor_only: bool = false
+var _constant_speed: bool = false
+var _jumping: bool = false
+var _keep_velocity: bool = false
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if _initial_velocity != Vector2.ZERO:
 		_velocity = _initial_velocity
 		_initial_velocity = Vector2.ZERO
@@ -44,7 +44,7 @@ func _physics_process(_delta: float) -> void:
 			_jumping = true
 			_velocity.y = -_jump_force
 	else:
-		_velocity.y += _gravity_force
+		_velocity.y += _gravity_force * delta * 60.0
 
 	floor_snap_length = _snap
 	floor_stop_on_slope = _stop_on_slope

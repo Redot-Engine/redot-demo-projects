@@ -10,7 +10,7 @@ extends Control
 @onready var fps_label := $FPSLabel
 @onready var resolution_label := $ResolutionLabel
 
-var counter := 0.0
+var counter: float = 0.0
 
 # When the screen changes size, we need to update the 3D
 # viewport quality setting. If we don't do this, the viewport will take
@@ -20,8 +20,30 @@ var viewport_start_size := Vector2(
 	ProjectSettings.get_setting(&"display/window/size/viewport_height")
 )
 
+var is_compatibility: bool = false
+
 
 func _ready() -> void:
+	if RenderingServer.get_current_rendering_method() == "gl_compatibility":
+		is_compatibility = true
+		%UnsupportedLabel.visible = true
+		mark_as_unsupported(%FilterOptionButton)
+		mark_as_unsupported(%TAAOptionButton)
+		mark_as_unsupported(%ScreenSpaceAAOptionButton)
+		mark_as_unsupported(%SDFGIOptionButton)
+		mark_as_unsupported(%SSAOOptionButton)
+		mark_as_unsupported(%SSReflectionsOptionButton)
+		mark_as_unsupported(%SSILOptionButton)
+		mark_as_unsupported(%VolumetricFogOptionButton)
+		# Darken lights' energy to compensate for sRGB blending (without affecting sky rendering).
+		$Node3D/OmniLight3D.light_energy = 0.5
+		$Node3D/SpotLight3D.light_energy = 0.5
+		$Node3D/DirectionalLight3D.sky_mode = DirectionalLight3D.SKY_MODE_SKY_ONLY
+		var new_light: DirectionalLight3D = $Node3D/DirectionalLight3D.duplicate()
+		new_light.light_energy = 0.35
+		new_light.sky_mode = DirectionalLight3D.SKY_MODE_LIGHT_ONLY
+		$Node3D.add_child(new_light)
+
 	get_viewport().size_changed.connect(update_resolution_label)
 	update_resolution_label()
 
@@ -37,7 +59,7 @@ func _process(delta: float) -> void:
 	fps_label.text = "%d FPS (%.2f mspf)" % [Engine.get_frames_per_second(), 1000.0 / Engine.get_frames_per_second()]
 	# Color FPS counter depending on framerate.
 	# The Gradient resource is stored as metadata within the FPSLabel node (accessible in the inspector).
-	fps_label.modulate = fps_label.get_meta("gradient").sample(remap(Engine.get_frames_per_second(), 0, 180, 0.0, 1.0))
+	fps_label.modulate = fps_label.get_meta(&"gradient").sample(remap(Engine.get_frames_per_second(), 0, 180, 0.0, 1.0))
 
 
 func update_resolution_label() -> void:
@@ -110,20 +132,21 @@ func _on_vsync_option_button_item_selected(index: int) -> void:
 	# Vertical synchronization locks framerate and makes screen tearing not visible at the cost of
 	# higher input latency and stuttering when the framerate target is not met.
 	# Adaptive V-Sync automatically disables V-Sync when the framerate target is not met, and enables
-	# V-Sync otherwise. This prevents suttering and reduces input latency when the framerate target
+	# V-Sync otherwise. This prevents stuttering and reduces input latency when the framerate target
 	# is not met, at the cost of visible tearing.
-	if index == 0: # Disabled (default)
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-	elif index == 1: # Adaptive
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
-	elif index == 2: # Enabled
-		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+	match index:
+		0: # Disabled (default)
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+		1: # Adaptive
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ADAPTIVE)
+		2: # Enabled
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 
 
-func _on_limit_fps_slider_value_changed(value: float):
+func _on_fps_limit_slider_value_changed(value: float):
 	# The maximum number of frames per second that can be rendered.
 	# A value of 0 means "no limit".
-	Engine.max_fps = value
+	Engine.max_fps = roundi(value)
 
 
 func _on_msaa_option_button_item_selected(index: int) -> void:
@@ -145,14 +168,14 @@ func _on_taa_option_button_item_selected(index: int) -> void:
 	get_viewport().use_taa = index == 1
 
 
-func _on_fxaa_option_button_item_selected(index: int) -> void:
+func _on_screen_space_aa_option_button_item_selected(index: int) -> void:
 	# Fast approximate anti-aliasing. Much faster than MSAA (and works on alpha scissor edges),
 	# but blurs the whole scene rendering slightly.
-	get_viewport().screen_space_aa = int(index == 1) as Viewport.ScreenSpaceAA
+	get_viewport().screen_space_aa = int(index) as Viewport.ScreenSpaceAA
 
 
 func _on_fullscreen_option_button_item_selected(index: int) -> void:
-	# To change between winow, fullscreen and other window modes,
+	# To change between window, fullscreen, and other window modes,
 	# set the root mode to one of the options of Window.MODE_*.
 	# Other modes are maximized and minimized.
 	if index == 0: # Disabled (default)
@@ -172,12 +195,18 @@ func _on_shadow_size_option_button_item_selected(index):
 	if index == 0: # Minimum
 		RenderingServer.directional_shadow_atlas_set_size(512, true)
 		# Adjust shadow bias according to shadow resolution.
-		# Higher resultions can use a lower bias without suffering from shadow acne.
+		# Higher resolutions can use a lower bias without suffering from shadow acne.
 		directional_light.shadow_bias = 0.06
 
-		# Disable positional (omni/spot) light shadows entirely to further improve performance.
-		# These often don't contribute as much to a scene compared to directional light shadows.
-		get_viewport().positional_shadow_atlas_size = 0
+
+		if is_compatibility:
+			# Work around bug in Compatibility where setting the positional shadow atlas size to 0 breaks rendering.
+			get_viewport().positional_shadow_atlas_size = 512
+		else:
+			# Disable positional (omni/spot) light shadows entirely to further improve performance.
+			# These often don't contribute as much to a scene compared to directional light shadows.
+			get_viewport().positional_shadow_atlas_size = 0
+
 	if index == 1: # Very Low
 		RenderingServer.directional_shadow_atlas_set_size(1024, true)
 		directional_light.shadow_bias = 0.04
@@ -367,7 +396,7 @@ func _on_saturation_slider_value_changed(value: float) -> void:
 func _on_very_low_preset_pressed() -> void:
 	%TAAOptionButton.selected = 0
 	%MSAAOptionButton.selected = 0
-	%FXAAOptionButton.selected = 0
+	%ScreenSpaceAAOptionButton.selected = 0
 	%ShadowSizeOptionButton.selected = 0
 	%ShadowFilterOptionButton.selected = 0
 	%MeshLODOptionButton.selected = 0
@@ -382,7 +411,7 @@ func _on_very_low_preset_pressed() -> void:
 func _on_low_preset_pressed() -> void:
 	%TAAOptionButton.selected = 0
 	%MSAAOptionButton.selected = 0
-	%FXAAOptionButton.selected = 1
+	%ScreenSpaceAAOptionButton.selected = 1
 	%ShadowSizeOptionButton.selected = 1
 	%ShadowFilterOptionButton.selected = 1
 	%MeshLODOptionButton.selected = 1
@@ -398,7 +427,7 @@ func _on_low_preset_pressed() -> void:
 func _on_medium_preset_pressed() -> void:
 	%TAAOptionButton.selected = 1
 	%MSAAOptionButton.selected = 0
-	%FXAAOptionButton.selected = 0
+	%ScreenSpaceAAOptionButton.selected = 2
 	%ShadowSizeOptionButton.selected = 2
 	%ShadowFilterOptionButton.selected = 2
 	%MeshLODOptionButton.selected = 1
@@ -414,7 +443,7 @@ func _on_medium_preset_pressed() -> void:
 func _on_high_preset_pressed() -> void:
 	%TAAOptionButton.selected = 1
 	%MSAAOptionButton.selected = 0
-	%FXAAOptionButton.selected = 0
+	%ScreenSpaceAAOptionButton.selected = 2
 	%ShadowSizeOptionButton.selected = 3
 	%ShadowFilterOptionButton.selected = 3
 	%MeshLODOptionButton.selected = 2
@@ -430,7 +459,7 @@ func _on_high_preset_pressed() -> void:
 func _on_ultra_preset_pressed() -> void:
 	%TAAOptionButton.selected = 1
 	%MSAAOptionButton.selected = 1
-	%FXAAOptionButton.selected = 0
+	%ScreenSpaceAAOptionButton.selected = 2
 	%ShadowSizeOptionButton.selected = 4
 	%ShadowFilterOptionButton.selected = 4
 	%MeshLODOptionButton.selected = 3
@@ -447,7 +476,7 @@ func update_preset() -> void:
 	# Simulate options being manually selected to run their respective update code.
 	%TAAOptionButton.item_selected.emit(%TAAOptionButton.selected)
 	%MSAAOptionButton.item_selected.emit(%MSAAOptionButton.selected)
-	%FXAAOptionButton.item_selected.emit(%FXAAOptionButton.selected)
+	%ScreenSpaceAAOptionButton.item_selected.emit(%ScreenSpaceAAOptionButton.selected)
 	%ShadowSizeOptionButton.item_selected.emit(%ShadowSizeOptionButton.selected)
 	%ShadowFilterOptionButton.item_selected.emit(%ShadowFilterOptionButton.selected)
 	%MeshLODOptionButton.item_selected.emit(%MeshLODOptionButton.selected)
@@ -457,3 +486,9 @@ func update_preset() -> void:
 	%SSReflectionsOptionButton.item_selected.emit(%SSReflectionsOptionButton.selected)
 	%SSILOptionButton.item_selected.emit(%SSILOptionButton.selected)
 	%VolumetricFogOptionButton.item_selected.emit(%VolumetricFogOptionButton.selected)
+
+
+func mark_as_unsupported(button: OptionButton) -> void:
+	button.disabled = true
+	button.add_item("Unsupported")
+	button.select(button.item_count - 1)

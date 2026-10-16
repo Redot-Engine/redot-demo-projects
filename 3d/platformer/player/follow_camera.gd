@@ -1,26 +1,30 @@
 extends Camera3D
 
+
 const MAX_HEIGHT = 2.0
 const MIN_HEIGHT = 0.0
 
 var collision_exception: Array[RID] = []
 
-@export var min_distance := 0.5
-@export var max_distance := 3.5
-@export var angle_v_adjust := 0.0
-@export var autoturn_ray_aperture := 25.0
-@export var autoturn_speed := 50.0
+@export var min_distance: float = 0.5
+@export var max_distance: float = 3.5
+@export var angle_v_adjust: float = 0.0
+@export var autoturn_ray_aperture: float = 25.0
+@export var autoturn_speed: float = 50.0
+
 
 func _ready() -> void:
 	# Find collision exceptions for ray.
+	# This is done to prevent the player and enemies from colliding
+	# with the camera.
 	var node: Node = self
 	while is_instance_valid(node):
-		if node is RigidBody3D:
+		if node is RigidBody3D or node is CharacterBody3D:
 			collision_exception.append(node.get_rid())
 			break
 		else:
 			node = node.get_parent()
-	set_physics_process(true)
+
 	# This detaches the camera transform from the parent spatial node.
 	set_as_top_level(true)
 
@@ -50,19 +54,19 @@ func _physics_process(delta: float) -> void:
 			target + Basis(Vector3.UP, deg_to_rad(autoturn_ray_aperture)) * (difference),
 			0xffffffff,
 			collision_exception
-	))
+		))
 	var col := ds.intersect_ray(PhysicsRayQueryParameters3D.create(
 			target,
 			target + difference,
 			0xffffffff,
 			collision_exception
-	))
+		))
 	var col_right := ds.intersect_ray(PhysicsRayQueryParameters3D.create(
 			target,
 			target + Basis(Vector3.UP, deg_to_rad(-autoturn_ray_aperture)) * (difference),
 			0xffffffff,
 			collision_exception
-	))
+		))
 
 	if not col.is_empty():
 		# If main ray was occluded, get camera closer, this is the worst case scenario.

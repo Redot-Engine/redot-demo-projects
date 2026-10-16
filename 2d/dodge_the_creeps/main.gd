@@ -27,13 +27,13 @@ func _on_MobTimer_timeout():
 
 	# Choose a random location on Path2D.
 	var mob_spawn_location = get_node(^"MobPath/MobSpawnLocation")
-	mob_spawn_location.progress = randi()
-
-	# Set the mob's direction perpendicular to the path direction.
-	var direction = mob_spawn_location.rotation + PI / 2
+	mob_spawn_location.progress_ratio = randf()
 
 	# Set the mob's position to a random location.
 	mob.position = mob_spawn_location.position
+
+	# Set the mob's direction perpendicular to the path direction.
+	var direction = mob_spawn_location.rotation + PI / 2
 
 	# Add some randomness to the direction.
 	direction += randf_range(-PI / 4, PI / 4)
@@ -45,6 +45,7 @@ func _on_MobTimer_timeout():
 
 	# Spawn the mob by adding it to the Main scene.
 	add_child(mob)
+
 
 func _on_ScoreTimer_timeout():
 	score += 1

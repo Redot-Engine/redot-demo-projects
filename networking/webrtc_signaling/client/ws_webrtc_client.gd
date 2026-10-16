@@ -11,13 +11,13 @@ enum Message {
 	SEAL,
 }
 
-@export var autojoin := true
-@export var lobby := ""  # Will create a new lobby if empty.
-@export var mesh := true  # Will use the lobby host as relay otherwise.
+@export var autojoin: bool = true
+@export var lobby: String = ""  # Will create a new lobby if empty.
+@export var mesh: bool = true  # Will use the lobby host as relay otherwise.
 
 var ws := WebSocketPeer.new()
 var code := 1000
-var reason := "Unknown"
+var reason: String = "Unknown"
 var old_state := WebSocketPeer.STATE_CLOSED
 
 signal lobby_joined(lobby: String)
@@ -64,11 +64,9 @@ func _parse_msg() -> bool:
 		return false
 
 	var msg := parsed as Dictionary
-	if not str(msg.type).is_valid_int() or not str(msg.id).is_valid_int():
-		return false
 
-	var type := str(msg.type).to_int()
-	var src_id := str(msg.id).to_int()
+	var type := int(msg.type)
+	var src_id := int(msg.id)
 
 	if type == Message.ID:
 		connected.emit(src_id, msg.data == "true")

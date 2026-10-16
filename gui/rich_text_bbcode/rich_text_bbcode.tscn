@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://oeg5vj7lpjw0"]
+[gd_scene load_steps=5 format=3 uid="uid://dbj84ub7f72wd"]
 
-[ext_resource type="Script" path="res://rich_text_bbcode.gd" id="1"]
+[ext_resource type="Script" uid="uid://cqqw54vye7lqn" path="res://rich_text_bbcode.gd" id="1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_q1hwu"]
 
@@ -74,7 +74,7 @@ list example.
 
 [/table]
 
-You can also create custom tags/effects, or customize behavior of [lb]url[rb] tags on click. For full reference, [color=aqua][url=https://docs.godotengine.org/en/latest/tutorials/gui/bbcode_in_richtextlabel.html]check the documentation.[/url][/color]
+You can also create custom tags/effects, or customize behavior of [lb]url[rb] tags on click. For full reference, [color=aqua][url=https://docs.godotengine.org/en/latest/tutorials/ui/bbcode_in_richtextlabel.html]check the documentation.[/url][/color]
 
 "
 context_menu_enabled = true

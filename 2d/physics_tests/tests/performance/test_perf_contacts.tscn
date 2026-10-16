@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bsieda0p35qu3"]
+[gd_scene load_steps=8 format=3 uid="uid://jbsqinrst71x"]
 
-[ext_resource type="PackedScene" uid="uid://dv7rxhg55y3t6" path="res://tests/static_scene.tscn" id="1"]
-[ext_resource type="Script" path="res://tests/performance/test_perf_contacts.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://c5duuyhbmd0m4" path="res://assets/texture/godot-head.png" id="3"]
-[ext_resource type="PackedScene" uid="uid://blh3twy74kbkv" path="res://tests/test_options.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://tpgxjpc126ld" path="res://tests/static_scene.tscn" id="1"]
+[ext_resource type="Script" uid="uid://mj1krpr0l1cu" path="res://tests/performance/test_perf_contacts.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://d2ujwstm8tvci" path="res://assets/texture/godot-head.png" id="3"]
+[ext_resource type="PackedScene" uid="uid://cwjfkltvisc0n" path="res://tests/test_options.tscn" id="4"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(20, 30)
@@ -36,18 +36,21 @@ position = Vector2(0, 1024)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DynamicShapes/RigidBodyRectangle"]
 shape = SubResource("1")
+debug_color = Color(1, 1, 0, 0.0980392)
 
 [node name="RigidBodySphere" type="RigidBody2D" parent="DynamicShapes"]
 position = Vector2(100, 1024)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DynamicShapes/RigidBodySphere"]
 shape = SubResource("2")
+debug_color = Color(1, 1, 0, 0.0980392)
 
 [node name="RigidBodyCapsule" type="RigidBody2D" parent="DynamicShapes"]
 position = Vector2(200, 1024)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DynamicShapes/RigidBodyCapsule"]
 shape = SubResource("3")
+debug_color = Color(1, 1, 0, 0.0980392)
 
 [node name="RigidBodyConvexPolygon" type="RigidBody2D" parent="DynamicShapes"]
 position = Vector2(300, 1024)

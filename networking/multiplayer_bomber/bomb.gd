@@ -10,13 +10,13 @@ func explode() -> void:
 		return
 
 	for p: Object in in_area:
-		if p.has_method("exploded"):
+		if p.has_method(&"exploded"):
 			# Checks if there is wall in between bomb and the object.
 			var world_state: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
 			var query := PhysicsRayQueryParameters2D.create(position, p.position)
 			query.hit_from_inside = true
 			var result: Dictionary  = world_state.intersect_ray(query)
-			if not result.collider is TileMap:
+			if result.collider is not TileMap:
 				# Exploded can only be called by the authority, but will also be called locally.
 				p.exploded.rpc(from_player)
 
